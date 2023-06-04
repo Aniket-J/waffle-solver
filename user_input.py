@@ -4,6 +4,7 @@ class WordleGame:
     def __init__(self):
         self.grid_size = 0
         self.grid_letters = []
+        self.grid_colors = []
 
     def get_user_input(self):
         # Prompt for grid size
@@ -13,7 +14,7 @@ class WordleGame:
             except ValueError:
                 print("Invalid input. Please enter a valid grid size.")
 
-        # Prompt for grid letters
+        # Prompt for grid letters and colors
         print("Enter the letters for the grid (use comma-separated values):")
         for _ in range(self.grid_size):
             row = input().split(",")
@@ -22,7 +23,15 @@ class WordleGame:
                 return
             self.grid_letters.append(row)
 
-        # Save user input to file
+        print("Enter the colors for the grid (use comma-separated values, 1 for no color, 2 for yellow, 3 for green):")
+        for _ in range(self.grid_size):
+            row = input().split(",")
+            if len(row) != self.grid_size:
+                print(f"Invalid input. Each row should contain {self.grid_size} values.")
+                return
+            self.grid_colors.append(row)
+
+        # Save user input to CSV file
         self.save_user_input()
 
     def save_user_input(self):
@@ -30,6 +39,7 @@ class WordleGame:
             writer = csv.writer(f)
             writer.writerow([self.grid_size])
             writer.writerows(self.grid_letters)
+            writer.writerows(self.grid_colors)
 
 # Create an instance of the WordleGame class
 game = WordleGame()
